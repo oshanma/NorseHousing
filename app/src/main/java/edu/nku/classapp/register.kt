@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import edu.nku.classapp.R
+import edu.nku.classapp.createProfile
 
 class Register : AppCompatActivity() {
 
@@ -37,7 +38,7 @@ class Register : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, Login::class.java))
+                            startActivity(Intent(this, createProfile::class.java))
                             finish()
                         } else {
                             Toast.makeText(this, "Registration Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
