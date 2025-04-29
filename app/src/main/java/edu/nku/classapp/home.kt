@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class home : AppCompatActivity() {
@@ -23,12 +24,12 @@ class home : AppCompatActivity() {
             val fragment = when (item.itemId) {
                 R.id.nav_students -> studentListFragment()
                // R.id.nav_matches -> matchListFragment()
-              //  R.id.nav_profile -> studentProfileFragment()
+            //    R.id.nav_profile -> studentProfileFragment()
                 else -> null
             }
             fragment?.let {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, it)
+                    .replace(R.id.fragment_container, it as Fragment)
                     .commit()
             }
             true
