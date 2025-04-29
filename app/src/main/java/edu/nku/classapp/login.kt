@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.input.key.Key.Companion.Home
 import com.google.firebase.auth.FirebaseAuth
 import edu.nku.classapp.R
+import edu.nku.classapp.home
 
 class Login : AppCompatActivity() {
 
@@ -39,7 +40,7 @@ class Login : AppCompatActivity() {
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
 
-                            startActivity(Intent(this, Home::class.java))
+                            startActivity(Intent(this, home::class.java))
                             finish()
                         } else {
                             Toast.makeText(this, "Login Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
