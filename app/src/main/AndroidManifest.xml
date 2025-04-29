@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClassApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".home"
+            android:exported="false" />
         <!-- Main screen -->
         <activity
             android:name=".MainActivity"
@@ -21,16 +23,12 @@
             android:theme="@style/Theme.ClassApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Login screen -->
-        <activity android:name="com.example.roommatematch.activities.Login" />
-
-        <!-- Register screen -->
+        </activity> <!-- Login screen -->
+        <activity android:name="com.example.roommatematch.activities.Login" /> <!-- Register screen -->
         <activity android:name="com.example.roommatematch.activities.Register" />
-
     </application>
 
 </manifest>

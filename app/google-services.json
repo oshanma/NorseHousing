@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "101665660804",
+    "project_id": "userloginnorsehousing",
+    "storage_bucket": "userloginnorsehousing.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101665660804:android:e9accf2b454ec9878407d1",
+        "android_client_info": {
+          "package_name": "edu.nku.classapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfl187lSgwO7DsYuDy_iUz0svRsFt3uFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
