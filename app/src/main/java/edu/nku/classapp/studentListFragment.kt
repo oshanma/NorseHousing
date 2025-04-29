@@ -1,59 +1,63 @@
 package edu.nku.classapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
+import edu.nku.classapp.adapter.StudentAdapter
+import edu.nku.classapp.model.Student
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [studentListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class studentListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var errorMessage: TextView
+    private val firestore = FirebaseFirestore.getInstance()
+    private val studentList = mutableListOf<Student>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_student_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_student_list, container, false)
+
+        recyclerView = view.findViewById(R.id.recycler_view)
+        progressBar = view.findViewById(R.id.progress_bar)
+        errorMessage = view.findViewById(R.id.error_message)
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = StudentAdapter(studentList)
+
+        loadStudents()
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment studentListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            studentListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun loadStudents() {
+        progressBar.visibility = View.VISIBLE
+        errorMessage.visibility = View.GONE
+
+        firestore.collection("users").get()
+            .addOnSuccessListener { result ->
+                studentList.clear()
+                for (doc in result) {
+                    val student = doc.toObject(Student::class.java)
+                    studentList.add(student)
                 }
+                recyclerView.adapter?.notifyDataSetChanged()
+                progressBar.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+            }
+            .addOnFailureListener {
+                progressBar.visibility = View.GONE
+                errorMessage.visibility = View.VISIBLE
+                errorMessage.text = "Failed to load students: ${it.message}"
             }
     }
 }
