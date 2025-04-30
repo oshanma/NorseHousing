@@ -45,7 +45,7 @@ class StudentCharacterDetailFragment : Fragment() {
     private fun fetchImageUrlsFromFirestore() {
         val db = FirebaseFirestore.getInstance()
         db.collection("users")
-            .whereEqualTo("Name", studentName) // or use email if more unique
+            .whereEqualTo("Name", studentName) 
             .get()
             .addOnSuccessListener { documents ->
                 for (doc in documents) {
@@ -82,7 +82,7 @@ class StudentCharacterDetailFragment : Fragment() {
     private fun loadImage(url: String) {
         Glide.with(requireContext())
             .load(url)
-            .placeholder(R.drawable.ic_launcher_foreground) // fallback image
+            .placeholder(R.drawable.ic_launcher_foreground) 
             .into(profileImageView)
     }
 
