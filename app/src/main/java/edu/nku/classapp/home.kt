@@ -23,8 +23,8 @@ class home : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener { item ->
             val fragment = when (item.itemId) {
                 R.id.nav_students -> studentListFragment()
-               // R.id.nav_matches -> matchListFragment()
-            //    R.id.nav_profile -> studentProfileFragment()
+               R.id.nav_matches -> matchListFragment()
+            R.id.nav_profile -> studentProfileFragment()
                 else -> null
             }
             fragment?.let {
