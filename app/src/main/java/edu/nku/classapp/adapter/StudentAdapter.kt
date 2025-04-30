@@ -13,7 +13,7 @@ import edu.nku.classapp.model.Student
 
 class StudentAdapter(
     private val studentList: List<Student>,
-    private val onLikeDislikeClick: (String, Boolean) -> Unit // (uid, true=like, false=dislike)
+    private val onLikeDislikeClick: (String, Boolean) -> Unit 
 ) : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
 
     inner class StudentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -35,7 +35,6 @@ class StudentAdapter(
                 profileImage.setImageResource(R.drawable.ic_launcher_foreground)
             }
 
-            // Click listeners for heart and cross
             btnLiked.setOnClickListener {
                 onLikeDislikeClick(student.uid, true)
             }
