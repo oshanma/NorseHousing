@@ -1,53 +1,126 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Background -->
+    <ImageView
+        android:id="@+id/imageBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/housing_backround"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Overlay -->
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:text="Complete Your Profile"
+        android:textSize="22sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="48dp" />
 
-        <ImageView
-            android:id="@+id/imageProfile"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/ic_launcher_foreground"
-            android:scaleType="centerCrop"
-            android:background="@android:color/darker_gray"
-            android:layout_marginBottom="16dp" />
+    <!-- Profile Image -->
+    <ImageView
+        android:id="@+id/imageProfile"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/ic_add_photo"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle_background"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
-        <EditText
-            android:id="@+id/editName"
-            android:hint="Full Name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <!-- Full Name -->
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Full Name"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/imageProfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp" />
 
-        <EditText
-            android:id="@+id/editClassYear"
-            android:hint="Class Year"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <!-- Class Year -->
+    <EditText
+        android:id="@+id/editClassYear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Class Year"
+        android:inputType="number"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/editName"
+        app:layout_constraintStart_toStartOf="@id/editName"
+        app:layout_constraintEnd_toEndOf="@id/editName"
+        android:layout_marginTop="12dp" />
 
-        <EditText
-            android:id="@+id/editDorm"
-            android:hint="Dorm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <!-- Dorm -->
+    <EditText
+        android:id="@+id/editDorm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Dorm"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/editClassYear"
+        app:layout_constraintStart_toStartOf="@id/editClassYear"
+        app:layout_constraintEnd_toEndOf="@id/editClassYear"
+        android:layout_marginTop="12dp" />
 
-        <EditText
-            android:id="@+id/editMajor"
-            android:hint="Major"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <!-- Major -->
+    <EditText
+        android:id="@+id/editMajor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Major"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/editDorm"
+        app:layout_constraintStart_toStartOf="@id/editDorm"
+        app:layout_constraintEnd_toEndOf="@id/editDorm"
+        android:layout_marginTop="12dp" />
 
-        <Button
-            android:id="@+id/btnSaveProfile"
-            android:text="Save Profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp" />
-    </LinearLayout>
-</ScrollView>
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/btnSaveProfile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Save Profile"
+        android:textColor="@android:color/black"
+        android:backgroundTint="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/editMajor"
+        app:layout_constraintStart_toStartOf="@id/editMajor"
+        app:layout_constraintEnd_toEndOf="@id/editMajor"
+        android:layout_marginTop="24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

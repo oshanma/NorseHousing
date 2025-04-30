@@ -13,7 +13,7 @@ import com.google.firebase.storage.FirebaseStorage
 
 
 
-class createProfile : AppCompatActivity() {
+class CreateProfileActivity : AppCompatActivity() {
 
     private lateinit var imageView: ImageView
     private lateinit var nameField: EditText
