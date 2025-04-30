@@ -67,7 +67,7 @@ class CreateProfileActivity : AppCompatActivity() {
             }
 
             if (selectedImageUris.isNotEmpty()) {
-                imageView.setImageURI(selectedImageUris[0]) // Preview first image
+                imageView.setImageURI(selectedImageUris[0]) 
             }
         }
     }
@@ -84,7 +84,6 @@ class CreateProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "Fill all fields and select images", Toast.LENGTH_SHORT).show()
             return
         }
-// If no images selected, skip upload
         if (selectedImageUris.isEmpty()) {
             val userData = hashMapOf(
                 "Name" to name,
@@ -105,7 +104,6 @@ class CreateProfileActivity : AppCompatActivity() {
             return
         }
 
-        // If images selected, proceed to upload
 
         val downloadUrls = mutableListOf<String>()
         val totalImages = selectedImageUris.size
