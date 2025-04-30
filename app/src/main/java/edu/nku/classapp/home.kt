@@ -15,7 +15,6 @@ class home : AppCompatActivity() {
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
 
-        // Load default fragment
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, studentListFragment())
             .commit()
