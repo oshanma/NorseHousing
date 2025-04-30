@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,11 +13,21 @@
         android:layout_height="0dp"
         android:src="@drawable/housing_backround"
         android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Optional overlay to darken background for better text contrast -->
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- NKU Logo -->
     <ImageView
@@ -25,9 +37,9 @@
         android:src="@drawable/logo"
         android:contentDescription="NKU Logo"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="35dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="60dp" />
 
     <!-- Welcome Title -->
     <TextView
@@ -35,68 +47,59 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hi! NORSE NATION"
-        android:textSize="26sp"
+        android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:fontFamily="sans-serif-medium"
         app:layout_constraintTop_toBottomOf="@id/imageLogo"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="12dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <!-- Subtitle -->
     <TextView
         android:id="@+id/textSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WELCOME TO NKU HOUSING"
+        android:text="Welcome to NKU Housing"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:fontFamily="sans-serif-light"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif"
         app:layout_constraintTop_toBottomOf="@id/textTitle"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="6dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp" />
 
-    <!-- Login Button with Modern Styling -->
-
-    <!-- Login Button with Modern Styling -->
-
-    <Button
+    <!-- Register Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegister"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="148dp"
-        android:background="@drawable/logo"
-        android:backgroundTint="@color/white"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center"
-        android:padding="10dp"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
         android:text="Register"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        app:cornerRadius="24dp"
+        app:backgroundTint="@color/white"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp" />
 
-    <Button
+    <!-- Login Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
         android:text="Login"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:backgroundTint="@color/white"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center"
-        android:padding="10dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/logo"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        app:cornerRadius="24dp"
+        app:backgroundTint="@color/white"
+        android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="48dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
