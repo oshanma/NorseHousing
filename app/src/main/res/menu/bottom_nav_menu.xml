@@ -5,10 +5,10 @@
         android:title="Students" />
     <item
         android:id="@+id/nav_matches"
-        android:icon="@drawable/ic_people"
+        android:icon="@drawable/ic_match"
         android:title="Matches" />
     <item
         android:id="@+id/nav_profile"
-        android:icon="@drawable/ic_people"
+        android:icon="@drawable/ic_profile"
         android:title="Profile" />
 </menu>
