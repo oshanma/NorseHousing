@@ -12,7 +12,7 @@ import edu.nku.classapp.R
 
 class LikedStudentAdapter(
     private val context: Context,
-    private val userList: List<Pair<String, String>> // Pair<imageURL, name>
+    private val userList: List<Pair<String, String>> 
 ) : RecyclerView.Adapter<LikedStudentAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
