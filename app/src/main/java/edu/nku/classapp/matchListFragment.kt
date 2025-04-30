@@ -1,59 +1,88 @@
 package edu.nku.classapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FirebaseFirestore
+import edu.nku.classapp.adapter.MatchesAdapter
+import edu.nku.classapp.model.Match
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [matchListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class matchListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var matchesRecycler: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var errorMessage: TextView
+
+    private val firestore = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+    private val matchList = mutableListOf<Match>()
+    private lateinit var matchesAdapter: MatchesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_match_list, container, false)
+    ): View {
+        val view = inflater.inflate(R.layout.fragment_match_list, container, false)
+
+        matchesRecycler = view.findViewById(R.id.matchesRecycler)
+        progressBar = view.findViewById(R.id.progress_bar)
+        errorMessage = view.findViewById(R.id.error_message)
+
+        matchesRecycler.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        matchesAdapter = MatchesAdapter(matchList) {} // empty onClick
+        matchesRecycler.adapter = matchesAdapter
+
+        loadMatches()
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment matchListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            matchListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun loadMatches() {
+        progressBar.visibility = View.VISIBLE
+        errorMessage.visibility = View.GONE
+
+        val currentUid = auth.currentUser?.uid ?: return
+
+        firestore.collection("users").document(currentUid).get()
+            .addOnSuccessListener { document ->
+                val matches = document.get("liked") as? List<String> ?: emptyList()
+                if (matches.isEmpty()) {
+                    progressBar.visibility = View.GONE
+                    return@addOnSuccessListener
                 }
+
+                firestore.collection("users")
+                    .whereIn(FieldPath.documentId(), matches)
+                    .get()
+                    .addOnSuccessListener { result ->
+                        matchList.clear()
+                        for (doc in result) {
+                            val name = doc.getString("Name") ?: "Unknown"
+                            val imageURL = (doc.get("imageURL") as? List<*>)?.firstOrNull() as? String ?: ""
+                            val uid = doc.id
+                            matchList.add(Match(uid, name, imageURL))
+                        }
+                        matchesAdapter.notifyDataSetChanged()
+                        progressBar.visibility = View.GONE
+                    }
+                    .addOnFailureListener {
+                        progressBar.visibility = View.GONE
+                        errorMessage.visibility = View.VISIBLE
+                        errorMessage.text = "Failed to load matches: ${it.message}"
+                    }
+            }
+            .addOnFailureListener {
+                progressBar.visibility = View.GONE
+                errorMessage.visibility = View.VISIBLE
+                errorMessage.text = "Failed to load user data: ${it.message}"
             }
     }
 }
