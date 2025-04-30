@@ -1,97 +1,59 @@
 package edu.nku.classapp
 
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import edu.nku.classapp.R
 
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
+
+/**
+ * A simple [Fragment] subclass.
+ * Use the [matchListFragment.newInstance] factory method to
+ * create an instance of this fragment.
+ */
 class matchListFragment : Fragment() {
+    // TODO: Rename and change types of parameters
+    private var param1: String? = null
+    private var param2: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_match_list, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val db = FirebaseFirestore.getInstance()
-        val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
-
-        val likedYouContainer = view.findViewById<LinearLayout>(R.id.likedYouContainer)
-        val matchesContainer = view.findViewById<LinearLayout>(R.id.matchesContainer)
-
-        db.collection("users").get().addOnSuccessListener { result ->
-            val allUsers = result.documents
-
-            val currentUserDoc = allUsers.find { it.getString("Email") == currentUserEmail }
-            val currentUserName = currentUserDoc?.getString("Name")?.trim() ?: return@addOnSuccessListener
-            val currentLiked = (currentUserDoc.get("liked") as? List<*>)?.map { it.toString().trim() } ?: emptyList()
-
-            var matchFound = false
-
-            for (doc in allUsers) {
-                val name = doc.getString("Name")?.trim() ?: continue
-                val imageList = doc.get("imageURL") as? List<*>
-                val imageUrl = imageList?.firstOrNull() as? String ?: continue
-                val theirLiked = (doc.get("liked") as? List<*>)?.map { it.toString().trim() } ?: emptyList()
-
-                if (name == currentUserName) continue
-
-                // "You Liked" section - current user liked this person
-                if (currentLiked.contains(name)) {
-                    likedYouContainer.addView(createProfileView(requireContext(), name, imageUrl))
-                }
-
-                // Match section - both liked each other
-                if (currentLiked.contains(name) && theirLiked.contains(currentUserName)) {
-                    matchesContainer.addView(createProfileView(requireContext(), name, imageUrl))
-                    matchFound = true
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment matchListFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            matchListFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
             }
-
-            if (!matchFound) {
-                val noMatchView = TextView(requireContext()).apply {
-                    text = "No matches found yet."
-                    textSize = 14f
-                    setTextColor(Color.GRAY)
-                    setPadding(24, 24, 24, 24)
-                }
-                matchesContainer.addView(noMatchView)
-            }
-        }
-    }
-
-    private fun createProfileView(context: Context, name: String, imageUrl: String): View {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_profile_picture, null)
-        val img = view.findViewById<ImageView>(R.id.profileImageView)
-        val nameText = view.findViewById<TextView>(R.id.profileName)
-
-        Glide.with(context)
-            .load(imageUrl)
-            .circleCrop()
-            .placeholder(R.drawable.ic_launcher_foreground)
-            .into(img)
-
-        nameText.text = name
-
-        view.setOnClickListener {
-            Toast.makeText(context, "Clicked: $name", Toast.LENGTH_SHORT).show()
-        }
-
-        return view
     }
 }

@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.roommatematch.activities.Login
+import edu.nku.classapp.adapter.LikedStudentAdapter
 
 class studentProfileFragment : Fragment() {
 
@@ -73,6 +76,31 @@ class studentProfileFragment : Fragment() {
             startActivity(Intent(requireContext(), Login::class.java))
             requireActivity().finish()
         }
+        // RecyclerView for liked users
+        val recyclerLikedUsers = view.findViewById<RecyclerView>(R.id.recyclerLikedUsers)
+        recyclerLikedUsers.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        val likedList = mutableListOf<Pair<String, String>>()
+
+        if (user != null) {
+            firestore.collection("users").document(user.uid).get()
+                .addOnSuccessListener { document ->
+                    val likedUids = document.get("liked") as? List<String> ?: emptyList()
+
+                    for (uid in likedUids) {
+                        firestore.collection("users").document(uid).get()
+                            .addOnSuccessListener { likedDoc ->
+                                val name = likedDoc.getString("Name") ?: "Unknown"
+                                val imageUrls = likedDoc.get("imageURL") as? List<*>
+                                val image = imageUrls?.firstOrNull() as? String ?: ""
+
+                                likedList.add(Pair(image, name))
+                                recyclerLikedUsers.adapter = LikedStudentAdapter(requireContext(), likedList)
+                            }
+                    }
+                }
+        }
+
 
         return view
     }
